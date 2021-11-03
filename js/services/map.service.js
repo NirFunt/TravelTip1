@@ -2,7 +2,8 @@
 export const mapService = {
     initMap,
     addMarker,
-    panTo
+    panTo,
+
 }
 
 var gMap;
@@ -18,8 +19,19 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 zoom: 15
             })
             console.log('Map!', gMap);
+            return gMap;
         })
 }
+
+// function addLocation(loc) {
+//     console.log(loc);
+//     var locName = prompt('Location Name?')
+//     var locCreationTime = Date.now();
+//     console.log(locName, locCreation);
+
+//     //ADDING TO THE LOCATIONS GLOBAL AND THEN RENDERING TO LOCATION DIV
+//     // gLocations.push(createLocation(gid++, locName, loc.lat, loc.lng, locCreationTime)
+// }
 
 function addMarker(loc) {
     var marker = new google.maps.Marker({
