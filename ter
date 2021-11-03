@@ -1,0 +1,62 @@
+[33mcommit 2394f77aef6a1ce0cfec961d3307511f68f94369[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Nir Funt <Antiflag77@gmail.com>
+Date:   Wed Nov 3 13:54:47 2021 +0200
+
+    check1
+
+[1mdiff --git a/index.html b/index.html[m
+[1mindex 626a094..2e4516b 100644[m
+[1m--- a/index.html[m
+[1m+++ b/index.html[m
+[36m@@ -9,7 +9,7 @@[m
+ </head>[m
+ [m
+ <body>[m
+[31m-    <heder class="main-header"></heder>[m
+[32m+[m[32m    <heder class="main-header2222"></heder>[m
+     <h1>TravelTip Starter</h1>[m
+     <div id="map" style="width: 100%; height: 400px;"></div>[m
+     <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>[m
+
+[33mcommit e4458a5372075dc9879bd233ac0ab126714a8045[m
+Author: Mark Fishman <gibor1122@gmail.com>
+Date:   Wed Nov 3 13:52:47 2021 +0200
+
+    demo commit
+
+[1mdiff --git a/index.html b/index.html[m
+[1mindex a9d7a7c..626a094 100644[m
+[1m--- a/index.html[m
+[1m+++ b/index.html[m
+[36m@@ -1,23 +1,28 @@[m
+ <!DOCTYPE html>[m
+ <html lang="en">[m
+[32m+[m
+ <head>[m
+     <meta charset="UTF-8">[m
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">[m
+     <title>TravelTip</title>[m
+     <link rel="stylesheet" href="styles/style.css">[m
+ </head>[m
+[32m+[m
+ <body>[m
+[32m+[m[32m    <heder class="main-header"></heder>[m
+     <h1>TravelTip Starter</h1>[m
+     <div id="map" style="width: 100%; height: 400px;"></div>[m
+     <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>[m
+     <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>[m
+     <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>[m
+[31m-    <button onclick="onPanTo()"class="btn-pan">Pan Map to Tokyo</button>[m
+[32m+[m[32m    <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>[m
+[32m+[m
+ [m
+     <p>You are at: <span class="user-pos"></span></p>[m
+     <p>Locations: <span class="locs"></span></p>[m
+[31m-    [m
+[32m+[m
+ [m
+     <script type="module" src="js/app.controller.js"></script>[m
+ </body>[m
+[32m+[m
+ </html>[m
+\ No newline at end of file[m
