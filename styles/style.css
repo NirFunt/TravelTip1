@@ -31,6 +31,9 @@ main {
     background-color: blue;
     height: 150px;
     max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .locations {

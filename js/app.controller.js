@@ -10,6 +10,7 @@ window.onAddMapListeners = onAddMapListeners;
 window.onGoToLocation = onGoToLocation;
 window.onDeleteLocation = onDeleteLocation;
 window.onGoToSearchedLocation = onGoToSearchedLocation;
+window.renderWeather = renderWeather;
 
 
 function onInit() {
@@ -47,10 +48,6 @@ function onAddMarker() {
 function onGetLocs() {
     locService.getLocs()
         .then(renderLocations);
-    // .then(locs => {
-    //     console.log('Locations:', locs)
-    //     document.querySelector('.locs').innerText = JSON.stringify(locs)
-    // })
 }
 
 function renderLocations(locs) {
@@ -58,31 +55,48 @@ function renderLocations(locs) {
     var strHTML = locs.map(location => {
         var str = `
         <div class="location-card">
-            <div class=card-header>
-                 <h3>${location.name}</h3>
-            </div>
-           <div class="card-main">
-                 <section class=card-details>
+        <div class=card-header>
+        <h3>${location.name}</h3>
+        </div>
+        <div class="card-main">
+        <section class=card-details>
                      <p>Lat:${location.lat}</p>
                      <p>Lng:${location.lng}</p>
                      <p>Weather:${location.weather}</p>
-                  </section>
-                  <section class=card-buttons>
-                      <button onclick="onGoToLocation(${location.lat}, ${location.lng})">Go To</button>
-                      <button onclick="onDeleteLocation('${location.id}')">Delete</button>
-                 </section>
-              </div>
-        </div>
-        `
+                     </section>
+                     <section class=card-buttons>
+                     <button onclick="onGoToLocation(${location.lat}, ${location.lng},'${location.name}')">Go To</button>
+                     <button onclick="onDeleteLocation('${location.id}')">Delete</button>
+                     </section>
+                     </div>
+                     </div>
+                     `
         return str
     })
 
     document.querySelector('.locations').innerHTML = strHTML.join('');
 }
-function onGoToLocation(lat, lng) {
+function onGoToLocation(lat, lng, name) {
     mapService.changeLocation(lat, lng)
+    mapService.getWeather(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=989cffec9a3dd62a23d6d55c0c5a6862`, name).then(renderWeather);
+
 }
 
+function renderWeather(weather) {
+    console.log('overcast clouds', 'scattered clouds', 'cloudy');
+    var weatherCel = (weather.weather[0].main.temp / 32) * 0.5556;
+    var name = weather.weather[1].name;
+    var weatherSky = weather.weather[2].main;
+    var weatherHumidity = weather.weather[0].main.humidity;
+
+    strHTML = `
+        <h2>${name}</h2>
+        <div>Humidity:${weatherHumidity}</div>
+        <div>Temp:${weatherCel}</div>
+        <div>${weatherSky}</div>
+        `
+    document.querySelector('.weather').innerHTML = strHTML;
+}
 function onDeleteLocation(id) {
     locService.deleteLocation(id)
     onGetLocs();
@@ -108,12 +122,12 @@ function onPanTo() {
 function onGoToSearchedLocation() {
     var searchedInput = document.querySelector('.location-input').value;
     var prm = mapService.getFromAPI(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchedInput}&key=AIzaSyCaw_1TlYwbkLtfuBuOndVhmdlon95_TgY`)
-    .then(data => {
-        console.log(data);
-        return data.results[0];
-    })
-    .then(loc => {
-        console.log(loc)
-        locService.createLocation(loc.formatted_address, loc.geometry.location.lat,loc.geometry.location.lng);
-    });
+        .then(data => {
+            console.log(data);
+            return data.results[0];
+        })
+        .then(loc => {
+            console.log(loc)
+            locService.createLocation(loc.formatted_address, loc.geometry.location.lat, loc.geometry.location.lng);
+        });
 }
