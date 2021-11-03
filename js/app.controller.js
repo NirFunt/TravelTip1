@@ -10,20 +10,37 @@ window.onAddMapListeners = onAddMapListeners;
 window.onGoToLocation = onGoToLocation;
 window.onDeleteLocation = onDeleteLocation;
 window.onGoToSearchedLocation = onGoToSearchedLocation;
+window.onCopyLocation = onCopyLocation;
+
+var gCurrentLocation = null;
+var gMap = null;
 
 
 function onInit() {
     mapService.initMap()
         .then(map => {
+            gMap = map;
             onAddMapListeners(map);
             console.log('Map is ready');
         })
         .catch(() => console.log('Error: cannot init map'));
 
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+    console.log(params)
+    var copiedLocation = JSON.parse(localStorage.getItem('copied-loc'));
+    if (copiedLocation.lat === +params.lat && copiedLocation.lng === +params.lng) {
+        console.log('true')
+
+            setTimeout(function () {
+                onGoToLocation(copiedLocation.lat,copiedLocation.lng)
+            },50)
+        // gMap.zoom = copiedLocation.zoom;
+    } else console.log('false');
+
 }
 function onAddMapListeners(map) {
     map.addListener("click", (mapsMouseEvent) => {
-
         let clickedPos = mapsMouseEvent.latLng.toJSON();
         var locName = prompt('Location Name?')
         locService.createLocation(locName, clickedPos.lat, clickedPos.lng)
@@ -108,12 +125,21 @@ function onPanTo() {
 function onGoToSearchedLocation() {
     var searchedInput = document.querySelector('.location-input').value;
     var prm = mapService.getFromAPI(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchedInput}&key=AIzaSyCaw_1TlYwbkLtfuBuOndVhmdlon95_TgY`)
-    .then(data => {
-        console.log(data);
-        return data.results[0];
-    })
-    .then(loc => {
-        console.log(loc)
-        locService.createLocation(loc.formatted_address, loc.geometry.location.lat,loc.geometry.location.lng);
-    });
+        .then(data => {
+            console.log(data);
+            return data.results[0];
+        })
+        .then(loc => {
+            console.log(loc)
+            locService.createLocation(loc.formatted_address, loc.geometry.location.lat, loc.geometry.location.lng);
+        });
+}
+
+
+function onCopyLocation() {
+    console.log(gMap);
+    console.log(gMap.center.lat(aa => console.log(aa)));
+    gCurrentLocation = { lat: gMap.center.lat(lat => lat), lng: gMap.center.lng(lng => lng), zoom: gMap.zoom }
+    console.log(gCurrentLocation);
+    localStorage.setItem('copied-loc', JSON.stringify(gCurrentLocation));
 }
