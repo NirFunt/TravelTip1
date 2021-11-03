@@ -1,3 +1,54 @@
 body {
     background-color: antiquewhite;
 }
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.weather-location-tables {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.weather {
+    background-color: blue;
+    height: 150px;
+    max-width: 200px;
+}
+
+.locations {
+    background-color: rgb(255, 0, 242);
+    height: 150px;
+    max-width: 200px;
+    overflow: scroll;
+}
+
+.locations p {
+    overflow-wrap:break-word;
+   
+}
+
+.the-map {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
