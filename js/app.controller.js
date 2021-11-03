@@ -27,16 +27,14 @@ function onInit() {
 
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
-    console.log(params)
+    // console.log(params)
     var copiedLocation = JSON.parse(localStorage.getItem('copied-loc'));
     if (copiedLocation.lat === +params.lat && copiedLocation.lng === +params.lng) {
-        console.log('true')
-
             setTimeout(function () {
                 onGoToLocation(copiedLocation.lat,copiedLocation.lng)
             },50)
-        // gMap.zoom = copiedLocation.zoom;
-    } else console.log('false');
+        // we need setTimeout because map is not ready at this stage in order to move to copiedLocation
+    } 
 
 }
 function onAddMapListeners(map) {
@@ -137,8 +135,7 @@ function onGoToSearchedLocation() {
 
 
 function onCopyLocation() {
-    console.log(gMap);
-    console.log(gMap.center.lat(aa => console.log(aa)));
+    // console.log(gMap);
     gCurrentLocation = { lat: gMap.center.lat(lat => lat), lng: gMap.center.lng(lng => lng), zoom: gMap.zoom }
     console.log(gCurrentLocation);
     localStorage.setItem('copied-loc', JSON.stringify(gCurrentLocation));
