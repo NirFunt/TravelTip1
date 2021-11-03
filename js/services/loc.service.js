@@ -1,12 +1,24 @@
+import { utilService } from '../services/util.service.js'
+import { storageService } from '../services/storage.service.js'
+
 export const locService = {
     getLocs
 }
 
+const LOCATIONS_DB = 'locationsDB'
 
-const locs = [
-    { name: 'Greatplace', lat: 32.047104, lng: 34.832384 }, 
-    { name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
-]
+var locs = _loadLocationsFromLocalStorage(LOCATIONS_DB);
+console.log(locs);
+if (!locs || locs.length === 0) {
+    console.log('creating defualt locations');
+    var locs = [];
+    createLocation('Greatplace', 32.047104, 34.832384, 'hot');
+    createLocation('Neveragain', 32.047201, 34.832581, 'hot');
+    createLocation('tlv', 32.3, 34.4, 'cold');
+}
+
+console.log(locs);
+
 
 function getLocs() {
     return new Promise((resolve, reject) => {
@@ -17,3 +29,23 @@ function getLocs() {
 }
 
 
+function createLocation(name, lat, lng, weather = 'cold', createdAt, updatedAt) {
+    var location = {
+        id: utilService.makeId(),
+        name,
+        lat,
+        lng,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+    }
+    locs.push(location);
+    _saveLocationsToLocalStorage();
+}
+
+function _saveLocationsToLocalStorage() {
+    storageService.save(LOCATIONS_DB, locs);
+}
+
+function _loadLocationsFromLocalStorage() {
+    return storageService.load(LOCATIONS_DB);
+}
