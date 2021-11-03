@@ -3,6 +3,8 @@ export const mapService = {
     initMap,
     addMarker,
     panTo,
+    changeLocation,
+    changeToUserLocation
 
 }
 
@@ -23,15 +25,23 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
         })
 }
 
-// function addLocation(loc) {
-//     console.log(loc);
-//     var locName = prompt('Location Name?')
-//     var locCreationTime = Date.now();
-//     console.log(locName, locCreation);
+function changeLocation(lat, lng) {
+    if (!navigator.geolocation) {
+        alert('Geolocation is not supported in your browser');
+        return
+    }
+    showPosition(lat, lng);
 
-//     //ADDING TO THE LOCATIONS GLOBAL AND THEN RENDERING TO LOCATION DIV
-//     // gLocations.push(createLocation(gid++, locName, loc.lat, loc.lng, locCreationTime)
-// }
+}
+function showPosition(lat, lng) {
+    let latLng = new google.maps.LatLng(lat, lng);
+    gMap.setCenter(latLng);
+}
+function changeToUserLocation(pos) {
+    console.log(pos.coords.latitude, pos.coords.latitude);
+    let myLatLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.latitude);
+    gMap.setCenter(myLatLng);
+}
 
 function addMarker(loc) {
     var marker = new google.maps.Marker({

@@ -3,7 +3,8 @@ import { storageService } from '../services/storage.service.js'
 
 export const locService = {
     getLocs,
-    createLocation
+    createLocation,
+    deleteLocation
 }
 
 const LOCATIONS_DB = 'locationsDB'
@@ -25,7 +26,7 @@ function getLocs() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve(locs);
-        }, 2000)
+        }, 1000)
     });
 }
 
@@ -42,6 +43,18 @@ function createLocation(name, lat, lng, weather = 'cold', createdAt, updatedAt) 
     locs.push(location);
     console.log(locs);
     _saveLocationsToLocalStorage();
+}
+
+function deleteLocation(id) {
+    console.log(id);
+    locs.map(function (location, idx) {
+        console.log(location);
+        if (location.id === id) {
+            locs.splice(idx, 1);
+        }
+    });
+    console.log(locs);
+
 }
 
 function _saveLocationsToLocalStorage() {

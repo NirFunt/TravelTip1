@@ -7,7 +7,7 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onAddMapListeners = onAddMapListeners;
-window.onChangeLocation = onChangeLocation;
+window.onGoToLocation = onGoToLocation;
 window.onDeleteLocation = onDeleteLocation;
 
 function onInit() {
@@ -66,7 +66,7 @@ function renderLocations(locs) {
                      <p>Weather:${location.weather}</p>
                   </section>
                   <section class=card-buttons>
-                      <button onclick="onGoToLocation('${location.id}')">Go To</button>
+                      <button onclick="onGoToLocation(${location.lat}, ${location.lng})">Go To</button>
                       <button onclick="onDeleteLocation('${location.id}')">Delete</button>
                  </section>
               </div>
@@ -77,14 +77,18 @@ function renderLocations(locs) {
 
     document.querySelector('.locations').innerHTML = strHTML.join('');
 }
-function onChangeLocation(id) {
+function onGoToLocation(lat, lng) {
+    mapService.changeLocation(lat, lng)
 }
+
 function onDeleteLocation(id) {
-    console.log(id);
+    locService.deleteLocation(id)
+    onGetLocs();
 }
 function onGetUserPos() {
     getPosition()
         .then(pos => {
+            mapService.changeToUserLocation(pos);
             console.log('User position is:', pos.coords);
             document.querySelector('.user-pos').innerText =
                 `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
