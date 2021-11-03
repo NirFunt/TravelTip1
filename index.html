@@ -9,17 +9,47 @@
 </head>
 
 <body>
-    <heder class="main-header2123"></heder>
-    <h1>TravelTip Starter</h1>
-    <div id="map" style="width: 100%; height: 400px;"></div>
-    <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-    <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
-    <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
-    <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
+    <header>
+        <h1>TravelTip</h1>
+        <section class="search-bar">
+            <input type="text" placeholder="Enter Location" class="location-input" name="location-input">
+            <button>GO</button>
+            <button onclick="onGetUserPos()" class="btn-user-pos">My Location</button>
 
 
-    <p>You are at: <span class="user-pos"></span></p>
-    <p>Locations: <span class="locs"></span></p>
+            <button onclick="onGetLocs()" class="btn-get-locs">My Locations</button>
+
+
+        </section>
+    </header>
+
+    <section class="sub-header">
+        <p>You are at: <span class="user-pos"></span></p>
+        <button onclick="onCopyLocation()">Copy Location</button>
+    </section>
+
+
+    <main>
+        <section class="weather-location-tables">
+            <div class="weather"> Weather </div>
+            <div class="locations">
+                <p>Locations: <span class="locs"></span></p>
+            </div>
+        </section>
+
+
+        <section class="the-map">
+            <div id="map" style="width: 100%; height: 400px;"></div>
+
+            <div>
+                <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
+                <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
+            </div>
+        </section>
+    </main>
+
+
+
 
 
     <script type="module" src="js/app.controller.js"></script>
