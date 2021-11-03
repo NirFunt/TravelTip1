@@ -6,13 +6,24 @@ window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
+window.onAddMapListeners = onAddMapListeners;
 
 function onInit() {
     mapService.initMap()
-        .then(() => {
+        .then(map => {
+            onAddMapListeners(map);
             console.log('Map is ready');
         })
         .catch(() => console.log('Error: cannot init map'));
+
+}
+function onAddMapListeners(map) {
+    map.addListener("click", (mapsMouseEvent) => {
+
+        let clickedPos = mapsMouseEvent.latLng.toJSON();
+        addLocation(clickedPos)
+        console.log(clickedPos);
+    });
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
