@@ -110,6 +110,6 @@ function onGoToSearchedLocation() {
     })
     .then(loc => {
         console.log(loc)
-        createLocation(loc.formatted_address, loc.geometry.location.lat,loc.geometry.location.lng);
+        locService.createLocation(loc.formatted_address, loc.geometry.location.lat,loc.geometry.location.lng);
     });
 }
