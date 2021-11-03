@@ -3,7 +3,7 @@ export const mapService = {
     initMap,
     addMarker,
     panTo,
-
+    getFromAPI,
 }
 
 var gMap;
@@ -60,4 +60,21 @@ function _connectGoogleApi() {
         elGoogleApi.onload = resolve;
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
+}
+
+
+function getFromAPI(server) {
+        console.log('taking data from server');
+        const prm = axios.get(server)
+            .then(res => {
+                console.log('Axios Res:', res);
+                return res.data;
+            })
+            .catch(err => {
+                console.log('Had issues talking to server', err);
+            })
+            .finally(() => {
+                console.log('Finally always run');
+            })
+        return prm;
 }

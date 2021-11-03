@@ -9,6 +9,8 @@ window.onGetUserPos = onGetUserPos;
 window.onAddMapListeners = onAddMapListeners;
 window.onChangeLocation = onChangeLocation;
 window.onDeleteLocation = onDeleteLocation;
+window.onGoToSearchedLocation = onGoToSearchedLocation;
+
 
 function onInit() {
     mapService.initMap()
@@ -96,4 +98,18 @@ function onGetUserPos() {
 function onPanTo() {
     console.log('Panning the Map');
     mapService.panTo(35.6895, 139.6917);
+}
+
+
+function onGoToSearchedLocation() {
+    var searchedInput = document.querySelector('.location-input').value;
+    var prm = mapService.getFromAPI(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchedInput}&key=AIzaSyCaw_1TlYwbkLtfuBuOndVhmdlon95_TgY`)
+    .then(data => {
+        console.log(data);
+        return data.results[0];
+    })
+    .then(loc => {
+        console.log(loc)
+        createLocation(loc.formatted_address, loc.geometry.location.lat,loc.geometry.location.lng);
+    });
 }

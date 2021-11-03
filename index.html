@@ -13,7 +13,7 @@
         <h1>TravelTip</h1>
         <section class="search-bar">
             <input type="text" placeholder="Enter Location" class="location-input" name="location-input">
-            <button>GO</button>
+            <button onclick="onGoToSearchedLocation()">GO</button>
             <button onclick="onGetUserPos()" class="btn-user-pos">My Location</button>
 
 
@@ -51,7 +51,7 @@
 
 
 
-
+    <script src="lib/axios.js"></script>
     <script type="module" src="js/app.controller.js"></script>
 </body>
 
