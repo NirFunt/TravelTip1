@@ -37,8 +37,6 @@ function panTo(lat, lng) {
 }
 
 
-
-
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
     const API_KEY = 'AIzaSyAqUZgbGEP11oNtkqb8bq06aDmUf4w9ksE'; //TODO: Enter your API Key
