@@ -2,7 +2,6 @@ body {
     background-color: antiquewhite;
 }
 
-
 header {
     display: flex;
     justify-content: space-between;
@@ -36,14 +35,40 @@ main {
 
 .locations {
     background-color: rgb(255, 0, 242);
-    height: 150px;
-    max-width: 200px;
-    overflow: scroll;
+    /* height: 150px; */
+    /* max-width: 200px; */
+    /* overflow: scroll; */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.location-card {
+    display: flex;
+    flex-direction: column;
+    background-color: aliceblue;
+}
+
+.card-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-buttons {
+    display: flex;
+}
+
+.card-header {
+    background-color: bisque;
 }
 
 .locations p {
-    overflow-wrap:break-word;
-   
+    overflow-wrap: break-word;
 }
 
 .the-map {

@@ -40,6 +40,7 @@ function createLocation(name, lat, lng, weather = 'cold', createdAt, updatedAt) 
         updatedAt: Date.now(),
     }
     locs.push(location);
+    console.log(locs);
     _saveLocationsToLocalStorage();
 }
 

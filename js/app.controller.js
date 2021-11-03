@@ -1,6 +1,5 @@
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
-import { locService } from './services/loc.service.js'
 
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
@@ -8,6 +7,8 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onAddMapListeners = onAddMapListeners;
+window.onChangeLocation = onChangeLocation;
+window.onDeleteLocation = onDeleteLocation;
 
 function onInit() {
     mapService.initMap()
@@ -22,8 +23,9 @@ function onAddMapListeners(map) {
     map.addListener("click", (mapsMouseEvent) => {
 
         let clickedPos = mapsMouseEvent.latLng.toJSON();
-        addLocation(clickedPos)
-        console.log(clickedPos);
+        var locName = prompt('Location Name?')
+        locService.createLocation(locName, clickedPos.lat, clickedPos.lng)
+
     });
 }
 
@@ -42,12 +44,44 @@ function onAddMarker() {
 
 function onGetLocs() {
     locService.getLocs()
-        .then(locs => {
-            console.log('Locations:', locs)
-            document.querySelector('.locs').innerText = JSON.stringify(locs)
-        })
+        .then(renderLocations);
+    // .then(locs => {
+    //     console.log('Locations:', locs)
+    //     document.querySelector('.locs').innerText = JSON.stringify(locs)
+    // })
 }
 
+function renderLocations(locs) {
+    console.log(locs);
+    var strHTML = locs.map(location => {
+        var str = `
+        <div class="location-card">
+            <div class=card-header>
+                 <h3>${location.name}</h3>
+            </div>
+           <div class="card-main">
+                 <section class=card-details>
+                     <p>Lat:${location.lat}</p>
+                     <p>Lng:${location.lng}</p>
+                     <p>Weather:${location.weather}</p>
+                  </section>
+                  <section class=card-buttons>
+                      <button onclick="onGoToLocation('${location.id}')">Go To</button>
+                      <button onclick="onDeleteLocation('${location.id}')">Delete</button>
+                 </section>
+              </div>
+        </div>
+        `
+        return str
+    })
+
+    document.querySelector('.locations').innerHTML = strHTML.join('');
+}
+function onChangeLocation(id) {
+}
+function onDeleteLocation(id) {
+    console.log(id);
+}
 function onGetUserPos() {
     getPosition()
         .then(pos => {
