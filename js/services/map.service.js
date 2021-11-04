@@ -1,3 +1,5 @@
+import { storageService } from '../services/storage.service.js'
+
 
 export const mapService = {
     initMap,
@@ -5,10 +7,12 @@ export const mapService = {
     panTo,
     getFromAPI,
     changeLocation,
-    changeToUserLocation
+    changeToUserLocation,
+    getWeather
 }
 
 var gMap;
+const relevantTime = 60 * 60 * 1000;
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap');
@@ -43,6 +47,33 @@ function changeToUserLocation(pos) {
     gMap.setCenter(myLatLng);
 }
 
+function getWeather(url, name) {
+    var cache = storageService.load(name) || {}
+
+    if (cache.weather && Date.now() - cache.updatedAt < relevantTime) {
+        console.log('Caching brah');
+        return Promise.resolve(cache);
+    }
+
+    var prm = axios.get(url)
+        .then(weather => {
+            console.log('Promising Brah');
+            var res = {
+                main: weather.data.main,
+                name: weather.data.name,
+                weather: weather.data.weather[0]
+            }
+            cache.weather = res;
+            cache.updatedAt = Date.now();
+
+            storageService.save(name, cache);
+            return res;
+        }).catch(err => {
+            console.log('Had issues talking to server', err);
+        })
+    return prm
+}
+
 function addMarker(loc) {
     var marker = new google.maps.Marker({
         position: loc,
@@ -60,7 +91,7 @@ function panTo(lat, lng) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = 'AIzaSyBsM1FW8B5MDxWyn5g-7Tn_9JHsrhD8m0s'; //TODO: Enter your API Key
+    const API_KEY = 'AIzaSyCaw_1TlYwbkLtfuBuOndVhmdlon95_TgY'; //TODO: Enter your API Key
     var elGoogleApi = document.createElement('script');
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
     elGoogleApi.async = true;
@@ -74,17 +105,17 @@ function _connectGoogleApi() {
 
 
 function getFromAPI(server) {
-        console.log('taking data from server');
-        const prm = axios.get(server)
-            .then(res => {
-                console.log('Axios Res:', res);
-                return res.data;
-            })
-            .catch(err => {
-                console.log('Had issues talking to server', err);
-            })
-            .finally(() => {
-                console.log('Finally always run');
-            })
-        return prm;
+    console.log('taking data from server');
+    const prm = axios.get(server)
+        .then(res => {
+            console.log('Axios Res:', res);
+            return res.data;
+        })
+        .catch(err => {
+            console.log('Had issues talking to server', err);
+        })
+        .finally(() => {
+            console.log('Finally always run');
+        })
+    return prm;
 }
