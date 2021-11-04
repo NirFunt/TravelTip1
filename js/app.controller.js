@@ -33,7 +33,15 @@ function onInit() {
             setTimeout(function () {
                 onGoToLocation(copiedLocation.lat,copiedLocation.lng)
             },50)
+
+            // const myPromise = new Promise((resolve, reject) => {
+            //     setTimeout(() => {
+            //       resolve(copiedLocation.lat,copiedLocation.lng);
+            //     }, 300);
+            //   });
+            //   myPromise.then(onGoToLocation);
         // we need setTimeout because map is not ready at this stage in order to move to copiedLocation
+
     } 
 
 }
